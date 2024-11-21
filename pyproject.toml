@@ -1,0 +1,100 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyflexad"
+version = "0.0.3"
+description = 'Python Flexibility Aggregation and Disaggregation. '
+readme = "README.md"
+requires-python = "~=3.11"
+# license = "MIT"
+license = {file = "LICENSE"}
+keywords = [
+  "energy storage systems",
+  "energy flexibility aggregation",
+  "minkowski sum",
+  "virtual energy storage",
+  "virtual power plant",
+  "optimization"
+]
+authors = [
+  { name = "Kevin Kaspar", email = "kevin.kaspar@fhv.at"},
+  { name = "Emrah Öztürk", email = "emrah.oeztuerk@fhv.at"}
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  #"Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+  "numpy~=1.26.4",
+  "matplotlib~=3.8.4",
+  "scipy~=1.13.0",
+  "pyomo~=6.7.1",
+  "numba~=0.59.1",
+  "seaborn~=0.13.2",
+  "networkx~=3.3",
+  "typing_extensions~=4.11.0",
+  "pandas~=2.2.2",
+  "gurobipy~=10.0.3",
+  "pycddlib~=2.1.7",
+  "highspy>=1.5.3",
+]
+
+[project.urls] # Optional
+"Homepage" = "https://github.com/rce-fhv/pyflexad"
+#"Bug Reports" = "https://github.com/pyopensci/pyosmeta/issues"
+"Source" = "https://github.com/rce-fhv/pyflexad"
+
+[project.optional-dependencies]
+dev = [
+  "jupyter",
+]
+#tests = [
+#  "pytest",
+#  "pytest-cov"
+#]
+#docs = [
+#  "sphinx",
+#  "pydata_sphinx_theme"
+#]
+#lint = [
+#  "black",
+#  "flake8"
+#]
+
+[tool.hatch.envs.test]
+# hatch run test:pytest
+dependencies = [
+  "pyflexad",
+  "pytest",
+  "pytest-cov",
+  "gurobipy~=10.0.3",
+  #"pytest-watcher"
+]
+
+[[tool.hatch.envs.test.matrix]]
+# hatch run test:pytest
+# python = ["3.11", "3.12"]
+python = ["3.11"]
+
+[tool.hatch.envs.test.scripts]
+# hatch run test:test_quick
+test_quick = "pytest --cov --cov-report html --cov-report term-missing --cov-fail-under 75 ./tests/test_pyflexad/test_flexibilities {args}"
+test_with_cov = "pytest --cov --cov-report html --cov-report term-missing --cov-fail-under 75 {args}"
+
+#format = "black {args}"
+#lint = "ruff check {args}"
+
+#[tool.pytest.ini_options]
+#testpaths="./tests/test_pyflexad/test_flexibilities"
+#addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75"
+
+[tool.coverage.run]
+source = ["src"]
