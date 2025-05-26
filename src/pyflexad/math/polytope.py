@@ -220,7 +220,7 @@ class Polytope:
         return m_sum
 
     def plot2d(self, ax: plt.axes = None, label: str = "", title: str = "", color: str = None, marker: str = "none",
-               line_style: str = '-', fill: bool = False, hatch: str = None, zorder: int = None):
+               line_style: str = '-', line_width:int=None, fill: bool = False, hatch: str = None, zorder: int = None):
         """
         Plot a 2D representation of the polytope.
 
@@ -238,6 +238,8 @@ class Polytope:
             The marker style for the plot.
         line_style : str, optional
             The line style for the plot.
+        line_width: int, optional
+            The line width for the plot.
         fill : bool, optional
             Whether to fill the plot.
         hatch : str, optional
@@ -272,7 +274,8 @@ class Polytope:
         elif fill and hatch is not None:
             ax.fill(x_list, y_list, edgecolor=color, label=label, hatch=hatch, facecolor='none', zorder=zorder)
         else:
-            ax.plot(x_list, y_list, color=color, marker=marker, label=label, linestyle=line_style, zorder=zorder)
+            ax.plot(x_list, y_list, color=color, marker=marker, label=label, linestyle=line_style,
+                    linewidth=line_width, zorder=zorder)
 
         ax.grid(True)
         if title != "":

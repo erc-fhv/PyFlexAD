@@ -14,7 +14,7 @@ from pyflexad.virtual.aggregator import Aggregator
 d = 2  # number of time intervals
 dt = 0.25  # interval duration in hours
 system_power_demand = np.array([[23.0, 21.0]])  # total power demand for each interval in kW
-algorithm = Algorithms.IABVG  # virtualization and aggregation algorithm
+algorithm = Algorithms.IABVG  # virtualization algorithm
 S_0 = 6.5  # initial battery capacity in kWh
 S_f = 5.0  # final battery capacity in kWh
 
@@ -88,5 +88,3 @@ ax.set_aspect('equal', adjustable='box')
 
 plt.tight_layout()
 plt.show()
-
-# fig.savefig("plot_bess_disaggregation.pdf", bbox_inches="tight")

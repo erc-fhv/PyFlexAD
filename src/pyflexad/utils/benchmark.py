@@ -62,6 +62,8 @@ class Benchmark:
 
     def to_pickle(self, file: str) -> None:
         file = os.path.abspath(file)
+        os.makedirs(os.path.dirname(file), exist_ok=True)
+
         d = self.__dict__
         with open(file, "wb") as fh:
             pickle.dump(d, fh)
