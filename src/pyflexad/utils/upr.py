@@ -41,7 +41,7 @@ class UPR:
         return upr
 
     def __calc_energy_costs(self, power: np.ndarray) -> float:
-        total_energy_costs = self._energy_prices @ (power + self._agg_power_demand)
+        total_energy_costs = self.energy_prices @ (power + self._agg_power_demand)
         return total_energy_costs
 
     def _calc_cost_upr(self, power_approx: np.ndarray, power_best: np.ndarray,
