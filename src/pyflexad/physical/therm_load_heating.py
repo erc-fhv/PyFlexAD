@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-
-import numpy as np
 from typing import Self
 
-from pyflexad.physical.energy_storage import EnergyStorage
+import numpy as np
+
 from pyflexad.parameters.general_parameters import GeneralParameters
 from pyflexad.parameters.hardware_parameters import HardwareParameters
 from pyflexad.parameters.usage_parameters import UsageParameters
+from pyflexad.physical.energy_storage import EnergyStorage
 
 
 @dataclass(kw_only=True)
@@ -41,10 +41,8 @@ class TCLHUsage(UsageParameters):
                      demand: np.ndarray) -> Self:
         offset = 273.15
         return cls(d=d, dt=dt,
-                   theta_r=theta_r_deg_c-offset, theta_a=theta_a_deg_c-offset,
-                   theta_0=theta_0_deg_c-offset, delta=delta, demand=demand)
-
-
+                   theta_r=theta_r_deg_c - offset, theta_a=theta_a_deg_c - offset,
+                   theta_0=theta_0_deg_c - offset, delta=delta, demand=demand)
 
 
 @dataclass(kw_only=True)

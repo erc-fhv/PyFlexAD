@@ -26,14 +26,15 @@ class VirtualEnergyStorage:
         self.__load_profile = self.__vertices.T @ alphas
 
     def plot_polytope_2d(self, ax: plt.axes = None, label: str = "", title: str = "", color: str = None,
-                         marker: str = "none", line_width:int=None,
+                         marker: str = "none", line_width: int = None,
                          line_style: str = '-', fill: bool = False, hatch: str = None, zorder: int = None) -> None:
         polytope = Polytope(self.__vertices)
 
         if not ax:
             ax = plt.gca()
 
-        polytope.plot2d(ax, label=label, title=title, color=color, marker=marker, line_width=line_width, line_style=line_style, fill=fill,
+        polytope.plot2d(ax, label=label, title=title, color=color, marker=marker, line_width=line_width,
+                        line_style=line_style, fill=fill,
                         hatch=hatch, zorder=zorder)
 
     def plot_load_profile_2d(self, ax: plt.axes = None, label: str = "", color: str = None, marker: str = "o",

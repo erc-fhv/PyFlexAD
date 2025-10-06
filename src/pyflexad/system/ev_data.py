@@ -205,9 +205,9 @@ class EVData:
             for i in range(self.power_demand.shape[0]):
                 ax.plot(intervals, self.power_demand[i, :], label=f"Participant[{i}]")
         elif method == "total":
-            ax.plot(intervals, self.power_demand.sum(axis=0), label=f"Total Demand")
+            ax.plot(intervals, self.power_demand.sum(axis=0), label="Total Demand")
         elif method == "fill":
-            ax.fill_between(intervals, np.zeros_like(intervals), self.power_demand.sum(axis=0), label=f"Total Demand")
+            ax.fill_between(intervals, np.zeros_like(intervals), self.power_demand.sum(axis=0), label="Total Demand")
         else:
             raise NotImplementedError(f"Method {method} not implemented")
 

@@ -3,10 +3,10 @@ from typing import Self
 
 import numpy as np
 
-from pyflexad.physical.energy_storage import EnergyStorage
 from pyflexad.parameters.general_parameters import GeneralParameters
 from pyflexad.parameters.hardware_parameters import HardwareParameters
 from pyflexad.parameters.usage_parameters import UsageParameters
+from pyflexad.physical.energy_storage import EnergyStorage
 
 
 @dataclass(kw_only=True)

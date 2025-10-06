@@ -45,7 +45,7 @@ def correction_down(s_t: float, s_list: list, x_elem_list: list, t: int,
                     x_upper: np.ndarray[float], x_lower: np.ndarray[float],
                     alpha: float, dt: float, tol: float) -> list:
     if s_t > s_upper[t] + tol:
-        aux = x_lower[:t+1] == 0
+        aux = x_lower[:t + 1] == 0
         k = list(aux)[::-1].index(False) + 1
         i = k
         x_elem_list_temp = [np.float64(x) for x in range(0)]
@@ -86,7 +86,7 @@ def correction_up(s_t: float, s_list: list, x_elem_list: list, t: int,
                   x_upper: np.ndarray[float], x_lower: np.ndarray[float],
                   alpha: float, dt: float, tol: float) -> list:
     if s_t < s_lower[t] - tol:
-        aux = x_upper[:t+1] == 0
+        aux = x_upper[:t + 1] == 0
         k = list(aux)[::-1].index(False) + 1
         i = k
         x_elem_list_temp = [np.float64(x) for x in range(0)]

@@ -10,6 +10,7 @@ from pyflexad.parameters.general_parameters import GeneralParameters
 
 class LPVGGurobipy(LPVG):
     """Linear Programming Vertex Generation algorithm using GurobiPy as backend"""
+
     @classmethod
     def from_general_params(cls, general_params: GeneralParameters, solver: str = "gurobi") -> Self:
         return cls(**general_params.__dict__, solver="gurobi")

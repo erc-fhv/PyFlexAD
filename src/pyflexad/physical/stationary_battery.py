@@ -3,10 +3,10 @@ from typing import Self
 
 import numpy as np
 
-from pyflexad.physical.energy_storage import EnergyStorage
 from pyflexad.parameters.general_parameters import GeneralParameters
 from pyflexad.parameters.hardware_parameters import HardwareParameters
 from pyflexad.parameters.usage_parameters import UsageParameters
+from pyflexad.physical.energy_storage import EnergyStorage
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -92,9 +92,9 @@ class StationaryBattery(EnergyStorage):
         load_profile = cls.empty_load_profile(usage.d)
 
         if usage.final_capacity < hardware.min_capacity:
-            raise ValueError(f"final_capacity < min_capacity")
+            raise ValueError("final_capacity < min_capacity")
         elif usage.final_capacity > hardware.max_capacity:
-            raise ValueError(f"final_capacity > max_capacity")
+            raise ValueError("final_capacity > max_capacity")
 
         """scalar parameters"""
         s_initial = usage.initial_capacity

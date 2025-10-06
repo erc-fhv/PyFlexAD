@@ -7,6 +7,7 @@ from pyflexad.math.signal_vectors import SignalVectors
 
 class LPVGPyomo(LPVG):
     """Linear Programming Vertex Generation algorithm using Pyomo as backend"""
+
     def approx_vertices(self, A: np.ndarray, b: np.ndarray, signal_vectors: SignalVectors) -> np.ndarray:
         """
         Approximate vertices based on input matrices and signal vectors.

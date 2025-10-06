@@ -220,7 +220,8 @@ class Polytope:
         return m_sum
 
     def plot2d(self, ax: plt.axes = None, label: str = "", title: str = "", color: str = None, marker: str = "none",
-               line_style: str = '-', line_width:int=None, fill: bool = False, hatch: str = None, zorder: int = None):
+               line_style: str = '-', line_width: int = None, fill: bool = False, hatch: str = None,
+               zorder: int = None):
         """
         Plot a 2D representation of the polytope.
 
@@ -280,8 +281,8 @@ class Polytope:
         ax.grid(True)
         if title != "":
             ax.set_title(title)
-        ax.set_xlabel(f"$x_1$")
-        ax.set_ylabel(f"$x_2$")
+        ax.set_xlabel("$x_1$")
+        ax.set_ylabel("$x_2$")
 
     def __add__(self, other) -> Self:
         """

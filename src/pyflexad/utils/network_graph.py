@@ -3,8 +3,8 @@ from dataclasses import dataclass, field
 import networkx as nx
 from typing_extensions import Self
 
-from pyflexad.virtual.virtual_energy_storage import VirtualEnergyStorage
 from pyflexad.virtual.aggregator import Aggregator
+from pyflexad.virtual.virtual_energy_storage import VirtualEnergyStorage
 
 
 @dataclass

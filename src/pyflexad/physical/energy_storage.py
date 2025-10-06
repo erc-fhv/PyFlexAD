@@ -39,7 +39,6 @@ class EnergyStorage(ABC):
 
         Parameters
         ----------
-            
         d: int
             The size of the array.
 
@@ -56,7 +55,7 @@ class EnergyStorage(ABC):
 
         Parameters
         ----------
-        hardware: HardwareParameters 
+        hardware: HardwareParameters
             The specific parameters related to the hardware of the energy storage.
         usage: UsageParameters
             The parameters related to the usage of the energy storage.

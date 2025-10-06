@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pytest
 
@@ -12,11 +14,14 @@ from pyflexad.utils.benchmark import Benchmark
 
 
 class TestBenchmark:
+    n_cpu = os.cpu_count()
     testdata_benchmark = [(2, (2, 4, 8), (2, 4, 8), (Algorithms.CENTRALIZED, Algorithms.IABVG_JIT), False),
-                          (2, (2, 4, 8), (2, 4, 8), (Algorithms.CENTRALIZED, Algorithms.IABVG_JIT), True)]
+                          pytest.param(2, (2, 4, 8), (2, 4, 8), (Algorithms.CENTRALIZED, Algorithms.IABVG_JIT), True,
+                                       marks=pytest.mark.skipif(n_cpu > 2, reason="not enough CPU cores"))
+                          ]
 
     @pytest.mark.parametrize("seed, d_list, n_flexibilities_list, algorithms, parallelize", testdata_benchmark)
-    def test_benchmark(self, seed: int, d_list, n_flexibilities_list: tuple, algorithms: tuple,
+    def test_benchmark(self, seed: int, d_list: list[int] | tuple[int], n_flexibilities_list: tuple, algorithms: tuple,
                        parallelize) -> None:
 
         """settings"""
