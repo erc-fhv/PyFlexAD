@@ -44,6 +44,7 @@ Note: Gurobi requires a valid license to run. See https://www.gurobi.com/ for li
 platform-specific system packages on some environments.
 
 ### Verify installation
+
 ```bash
 python -c "import pyflexad; print(pyflexad.__version__)"
 ```
