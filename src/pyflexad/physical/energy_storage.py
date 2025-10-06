@@ -1,9 +1,9 @@
 import collections
+import os
 import uuid
 from abc import ABC
 from typing import Self
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from pyflexad.math.iabvg import IABVG
@@ -81,6 +81,9 @@ class EnergyStorage(ABC):
         self.__id = id
         self.__load_profile = load_profile
         self.__gp = gp
+        # Lazy cache for (A, b) to avoid recomputation across repeated calls
+        self.__A = None
+        self.__b = None
 
     def get_id(self) -> str:
         return self.__id
@@ -121,7 +124,15 @@ class EnergyStorage(ABC):
             vertices = (LPVGPyomo.from_general_params(self.__gp, solver=Algorithms.get_solver(algorithm))
                         .approx_vertices(*self.calc_A_b(), signal_vectors=signal_vectors))
         elif algorithm == Algorithms.IABVG:
-            vertices = IABVG.from_general_params(self.__gp).approx_vertices(signal_vectors)
+            # Prefer JIT implementation unless explicitly disabled
+            disable_jit = os.environ.get("PYFLEXAD_DISABLE_JIT", "0").lower() in {"1", "true", "yes"}
+            if not disable_jit:
+                try:
+                    vertices = IABVG_JIT.from_general_params(self.__gp).approx_vertices(signal_vectors)
+                except Exception:
+                    vertices = IABVG.from_general_params(self.__gp).approx_vertices(signal_vectors)
+            else:
+                vertices = IABVG.from_general_params(self.__gp).approx_vertices(signal_vectors)
         elif algorithm == Algorithms.IABVG_JIT:
             vertices = IABVG_JIT.from_general_params(self.__gp).approx_vertices(signal_vectors)
         else:
@@ -133,6 +144,9 @@ class EnergyStorage(ABC):
         """
         Calculation of matrix A and vector b for the energy storage model
         """
+        # Return cached values if already computed
+        if hasattr(self, "_EnergyStorage__A") and self.__A is not None and self.__b is not None:
+            return self.__A, self.__b
 
         """calculate A matrix"""
         eye = np.identity(self.__gp.d)
@@ -156,9 +170,11 @@ class EnergyStorage(ABC):
 
         b = b + A @ (np.ones(self.__gp.d) * self.__gp.x0)
 
+        # Cache and return
+        self.__A, self.__b = A, b
         return A, b
 
-    def plot_load_profile_2d(self, ax: plt.axes = None, label: str = "", color: str = None, marker: str = "o",
+    def plot_load_profile_2d(self, ax=None, label: str = "", color: str = None, marker: str = "o",
                              edgecolors: str = "k",
                              s: int = 100, zorder: int = 3) -> None:
         """
@@ -185,6 +201,9 @@ class EnergyStorage(ABC):
         -------
         None
         """
+        # Lazy import of matplotlib to avoid heavy import time at module import
+        import matplotlib.pyplot as plt
+        ax = ax or plt.gca()
         ax.scatter(self.__load_profile[0], self.__load_profile[1], color=color, marker=marker, label=label, s=s,
                    edgecolors=edgecolors, zorder=zorder)
 

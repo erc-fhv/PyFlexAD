@@ -1,7 +1,11 @@
-import gurobipy as gp
+import logging
+
 import numpy as np
 
 from pyflexad.optimization.vertex_based_controller import VertexBasedController
+from ._solvers import import_gurobi
+
+logger = logging.getLogger(__name__)
 
 
 class VertexBasedCostController(VertexBasedController):
@@ -25,10 +29,12 @@ class VertexBasedCostController(VertexBasedController):
         tuple[np.ndarray, np.ndarray]
             Aggregated power distribution and alpha values after optimization.
         """
+        gp = import_gurobi()
         vertices_T = vertices.T
         n_vertices = vertices_T.shape[1]
 
         """optimization"""
+        logger.debug("Building Gurobi model for VertexBasedCostController (d=%d, n_vertices=%d)", self._d, n_vertices)
         with gp.Model("Decentralized optimization, cost reduction") as model:
             model.Params.OutputFlag = 0
             x = model.addMVar(shape=self._d, lb=-gp.GRB.INFINITY)
@@ -40,8 +46,11 @@ class VertexBasedCostController(VertexBasedController):
                                gp.GRB.MINIMIZE)
             model.optimize()
 
+            logger.debug("Gurobi solve finished with status=%s", model.status)
             if model.status != gp.GRB.Status.OPTIMAL:
-                raise RuntimeError(f"GUROBIPY Status: {model.status}")
+                raise RuntimeError(
+                    f"VertexBasedCostController.solve failed (status={model.status})."
+                )
 
             aggregated_power = x.X
             alphas = alpha.X

@@ -24,6 +24,30 @@ You can also install the latest version directly from the GitHub repository:
 pip install git+https://github.com/erc-fhv/PyFlexAD.git
 ```
 
+### Optional solver extras
+Install optional solver backends as needed:
+
+- Gurobi (commercial, license required):
+  ```bash
+  pip install pyflexad[gurobi]
+  ```
+- HiGHS (open source):
+  ```bash
+  pip install pyflexad[highs]
+  ```
+- All optional solvers:
+  ```bash
+  pip install pyflexad[all-solvers]
+  ```
+
+Note: Gurobi requires a valid license to run. See https://www.gurobi.com/ for licensing details. HiGHS may require
+platform-specific system packages on some environments.
+
+### Verify installation
+```bash
+python -c "import pyflexad; print(pyflexad.__version__)"
+```
+
 ### Dependencies
 
 The latest version of PyFlexAD requires the installation of at least one mathematical programming solver, 

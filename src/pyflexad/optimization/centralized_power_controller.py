@@ -1,8 +1,12 @@
-import gurobipy as gp
+import logging
+
 import numpy as np
 
 from pyflexad.optimization.centralized_controller import CentralizedController
 from pyflexad.physical.energy_storage import EnergyStorage
+from ._solvers import import_gurobi
+
+logger = logging.getLogger(__name__)
 
 
 class CentralizedPowerController(CentralizedController):
@@ -23,9 +27,11 @@ class CentralizedPowerController(CentralizedController):
         np.ndarray
             Individual power distribution after optimization.
         """
+        gp = import_gurobi()
         n = len(items)
 
         """optimization"""
+        logger.debug("Building Gurobi model for CentralizedPowerController (d=%d, n=%d)", self._d, n)
         with gp.Model("Centralized optimization, peak shaving") as model:
             model.Params.OutputFlag = 0
             x = model.addMVar(shape=(self._d, n), lb=-float("inf"))
@@ -40,8 +46,12 @@ class CentralizedPowerController(CentralizedController):
             model.setObjective(t, gp.GRB.MINIMIZE)
             model.optimize()
 
+            logger.debug("Gurobi solve finished with status=%s", model.status)
             if model.status != gp.GRB.Status.OPTIMAL:
-                raise RuntimeError(f"GUROBIPY Status: {model.status}")
+                raise RuntimeError(
+                    f"CentralizedPowerController.optimize failed (status={model.status}). "
+                    f"Check model formulation and constraints; infeasibility or unboundedness may be the cause."
+                )
 
             if not minimize:
                 """workaround maximization after minimization"""
@@ -49,7 +59,9 @@ class CentralizedPowerController(CentralizedController):
                 model.optimize()
 
                 if model.status not in [gp.GRB.Status.OPTIMAL, gp.GRB.Status.UNBOUNDED]:  # seams to work in some cases
-                    raise RuntimeError(f"GUROBIPY Status: {model.status}")
+                    raise RuntimeError(
+                        f"CentralizedPowerController maximize pass failed (status={model.status})."
+                    )
 
             """save operation point power to flexibilities"""
             for j, item in enumerate(items):

@@ -1,11 +1,14 @@
+import logging
 from typing import Self
 
-import gurobipy as gp
 import numpy as np
 
-from pyflexad.math.lpvg import LPVG
-from pyflexad.math.signal_vectors import SignalVectors
+from pyflexad.optimization._solvers import import_gurobi
 from pyflexad.parameters.general_parameters import GeneralParameters
+from .lpvg import LPVG
+from .signal_vectors import SignalVectors
+
+logger = logging.getLogger(__name__)
 
 
 class LPVGGurobipy(LPVG):
@@ -41,6 +44,9 @@ class LPVGGurobipy(LPVG):
         """calculate vertices for approximation"""
         vertices = np.zeros((signal_vectors.g, signal_vectors.d))
 
+        gp = import_gurobi()
+        logger.debug("Building Gurobi model for LPVG (A=%s,b=%s,d=%d,g=%d)", A.shape, b.shape, signal_vectors.d,
+                     signal_vectors.g)
         with gp.Model("Vertex Generation") as model:
             model.Params.OutputFlag = 0
             x: gp.MVar = model.addMVar(shape=(A.shape[1],), lb=-gp.GRB.INFINITY)
@@ -53,6 +59,6 @@ class LPVGGurobipy(LPVG):
                 if model.status == gp.GRB.Status.OPTIMAL:
                     vertices[i] = x.X
                 else:
-                    raise RuntimeError(f"GUROBIPY Status: {model.status}")
+                    raise RuntimeError(f"LPVGGurobipy failed (status={model.status}).")
 
         return vertices

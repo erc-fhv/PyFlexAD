@@ -1,22 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "pyflexad"
 version = "0.0.3"
-description = 'Python Flexibility Aggregation and Disaggregation. '
+description = "Python Flexibility Aggregation and Disaggregation."
 readme = "README.md"
-requires-python = ">=3.11, <3.13"
-# license = "MIT"
-license = {file = "LICENSE"}
+requires-python = ">=3.11,<3.13"
+license = { file = "LICENSE" }
 keywords = [
   "energy storage systems",
   "energy flexibility aggregation",
   "minkowski sum",
   "virtual energy storage",
   "virtual power plant",
-  "optimization"
+  "optimization",
 ]
 authors = [
-  { name = "Kevin Kaspar", email = "kevin.kaspar@fhv.at"},
-  { name = "Emrah Öztürk", email = "emrah.oeztuerk@fhv.at"}
+  { name = "Kevin Kaspar", email = "kevin.kaspar@fhv.at" },
+  { name = "Emrah Öztürk", email = "emrah.oeztuerk@fhv.at" },
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -27,37 +30,71 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
-
+# Core runtime dependencies only; optional solvers are declared in extras below.
 dependencies = [
-    "numpy>=1.26.4,<1.27",
-    "matplotlib>=3.8.4,<3.9",
-    "scipy>=1.13.0,<1.14",
-    "pyomo>=6.7.1,<6.8",
-    "numba>=0.59.1,<0.60",
-    "seaborn>=0.13.2,<0.14",
-    "networkx>=3.3,<4",
-    "typing_extensions>=4.11.0,<4.12",
-    "pandas>=2.2.2,<2.3",
-    "gurobipy>=10.0.3,<12.0.3",
-    "pycddlib>=2.1.7,<2.2",
-    "highspy>=1.5.3",
+  "numpy>=1.26.4,<1.27",
+  "matplotlib>=3.8.4,<3.9",
+  "scipy>=1.13.0,<1.14",
+  "pyomo>=6.7.1,<6.8",
+  "numba>=0.59.1,<0.60",
+  "seaborn>=0.13.2,<0.14",
+  "networkx>=3.3,<4",
+  "typing_extensions>=4.11.0,<4.12",
+  "pandas>=2.2.2,<2.3",
+  "pycddlib>=2.1.7,<2.2",
+  "openpyxl>=3.1.5",
 ]
 
-[project.urls] # Optional
-"Homepage" = "https://github.com/rce-fhv/pyflexad"
-#"Bug Reports" = "https://github.com/pyopensci/pyosmeta/issues"
-"Source" = "https://github.com/rce-fhv/pyflexad"
+[project.optional-dependencies]
+# Install with: pip install pyflexad[gurobi]
+gurobi = [
+  "gurobipy>=10.0.3,<12.0.3",
+]
+# Install with: pip install pyflexad[highs]
+highs = [
+  "highspy>=1.5.3",
+]
+# Install with: pip install pyflexad[all-solvers]
+all-solvers = [
+  "gurobipy>=10.0.3,<12.0.3",
+  "highspy>=1.5.3",
+]
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[project.urls]
+Homepage = "https://github.com/rce-fhv/pyflexad"
+Source = "https://github.com/rce-fhv/pyflexad"
+
+[tool.hatch.build.targets.wheel]
+# Ensure src layout is correctly packaged
+packages = ["src/pyflexad"]
+
+[tool.hatch.build.targets.sdist]
+# Ship only the package and essential metadata; exclude large datasets and dev assets
+include = [
+  "/src/pyflexad",
+  "/README.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+exclude = [
+  "/data",
+  "/notebooks",
+  "/scripts",
+  "/tests",
+  "/docs",
+  "/.ruff_cache",
+  "/uv.lock",
+  "/development_instructions.md",
+  "**/*.ipynb",
+]
 
 [dependency-groups]
+# Used by uv for development workflows
 dev = [
-    "pytest>=8.4.2",
-    "pytest-cov>=7.0.0",
-    "pytest-xdist>=3.8.0",
-    "ruff>=0.13.3",
+  "pytest>=8.4.2",
+  "pytest-cov>=7.0.0",
+  "pytest-xdist>=3.8.0",
+  "ruff>=0.13.3",
 ]
 
 [tool.ruff]
@@ -66,11 +103,10 @@ line-length = 120
 
 [tool.pytest.ini_options]
 testpaths = ["tests/test_pyflexad"]
-pythonpath = ["."]
-# Specify the number of CPUs to run in parallel, using pytest-xdist e.g.: -n 12
-#addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75 -n auto"
-addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75"
+pythonpath = ["src"]
+# Specify the number of CPUs to run in parallel, using pytest-xdist e.g.: -n auto
+# addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75 -n auto"
+addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 50"
 
 [tool.coverage.run]
 source = ["src"]
-

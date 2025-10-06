@@ -1,8 +1,12 @@
-import gurobipy as gp
+import logging
+
 import numpy as np
 
 from pyflexad.optimization.centralized_controller import CentralizedController
 from pyflexad.physical.energy_storage import EnergyStorage
+from ._solvers import import_gurobi
+
+logger = logging.getLogger(__name__)
 
 
 class CentralizedCostController(CentralizedController):
@@ -28,9 +32,11 @@ class CentralizedCostController(CentralizedController):
         np.ndarray
             Individual power distribution after optimization.
         """
+        gp = import_gurobi()
         n = len(items)
 
         """optimization"""
+        logger.debug("Building Gurobi model for CentralizedCostController (d=%d, n=%d)", self._d, n)
         with gp.Model("Centralized optimization, cost reduction") as model:
             model.Params.OutputFlag = 0
             x = model.addMVar(shape=(self._d, n), lb=-gp.GRB.INFINITY, vtype=gp.GRB.CONTINUOUS, name="x")
@@ -44,8 +50,12 @@ class CentralizedCostController(CentralizedController):
             model.setObjective(expr=objective_expression, sense=gp.GRB.MINIMIZE)
             model.optimize()
 
+            logger.debug("Gurobi solve finished with status=%s", model.status)
             if model.status != gp.GRB.Status.OPTIMAL:
-                raise RuntimeError(f"{model.name} = {model.status}")
+                raise RuntimeError(
+                    f"CentralizedCostController.optimize failed (status={model.status}). "
+                    f"Check cost function and constraints; infeasibility or unboundedness may be the cause."
+                )
 
             if not minimize:
                 """workaround maximization after minimization"""
@@ -54,7 +64,9 @@ class CentralizedCostController(CentralizedController):
 
                 if model.status not in [gp.GRB.Status.OPTIMAL,
                                         gp.GRB.Status.UNBOUNDED]:  # -> seams to work in some cases
-                    raise RuntimeError(f"GUROBIPY Status: {model.status}")
+                    raise RuntimeError(
+                        f"CentralizedCostController maximize pass failed (status={model.status})."
+                    )
 
             """save operation point power to flexibilities"""
             for j, item in enumerate(items):

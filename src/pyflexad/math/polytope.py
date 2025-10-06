@@ -1,7 +1,6 @@
 from typing import Self
 
 import cdd
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import ConvexHull
 
@@ -208,10 +207,8 @@ class Polytope:
         m_sum : Polytope
         """
 
-        m_sum_vertices = np.full((self.nV * other.nV, self.n), np.nan, dtype=float)
-
-        for i_q, q in enumerate(other.V):
-            m_sum_vertices[i_q * self.nV: (i_q + 1) * self.nV, :] = self.V + q
+        # Vectorized pairwise addition of vertices using broadcasting
+        m_sum_vertices = (self.V[None, :, :] + other.V[:, None, :]).reshape(-1, self.n)
 
         m_sum = Polytope(m_sum_vertices)
 
@@ -219,7 +216,7 @@ class Polytope:
             m_sum.minimize_vertices()
         return m_sum
 
-    def plot2d(self, ax: plt.axes = None, label: str = "", title: str = "", color: str = None, marker: str = "none",
+    def plot2d(self, ax=None, label: str = "", title: str = "", color: str = None, marker: str = "none",
                line_style: str = '-', line_width: int = None, fill: bool = False, hatch: str = None,
                zorder: int = None):
         """
@@ -259,6 +256,9 @@ class Polytope:
         """
         if self.n != 2:
             raise NotImplementedError('plot2d() is not implemented for n != 2')
+
+        # Import matplotlib lazily to avoid heavy import cost at module import time
+        import matplotlib.pyplot as plt
 
         vertices = self.V_sorted()
 
