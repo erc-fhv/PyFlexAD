@@ -2,57 +2,42 @@
 
 ## About
 
-The software package PyFlexAD is designed to apply the vertex-based aggregation of various energy storage devices for optimization purposes. 
+The software package PyFlexAD is designed to apply the **vertex-based aggregation** of various energy storage devices 
+for optimization purposes. 
 The software is implemented in the Python 3 programming language and licensed under the MIT license. 
 The python package is available for download from the Python Project Index (PyPI). 
-The source code and additional materials can be accessed on [GitHub](https://github.com/rce-fhv/pyflexad).
+The source code and additional materials can be accessed on [GitHub](https://github.com/erc-fhv/PyFlexAD).
+
+## 📦 Installation
+
+### From PyPI (recommended)
+
+Once published, you can install the package directly from PyPI:
+```bash
+pip install pyflexad
+```
+
+### From GitHub (development or latest version)
+
+You can also install the latest version directly from the GitHub repository:
+```bash
+pip install git+https://github.com/erc-fhv/PyFlexAD.git
+```
 
 ### Dependencies
 
 The latest version of PyFlexAD requires the installation of at least one mathematical programming solver, 
-which is supported by the [Pyomo](http://www.pyomo.org/) optimisation modelling library.
+which is supported by the [Pyomo](http://www.pyomo.org/) optimization modeling library.
 
 We recommend one of the following solvers:
 
 - [CBC](https://projects.coin-or.org/Cbc): open source solver
 - [HiGHs](https://highs.dev/): open source solver
 - [GLPK](https://www.gnu.org/software/glpk/): open source solver
-- [Gurobi](http://www.gurobi.com/): commercial solver, academic license available
+- [Gurobi](http://www.gurobi.com/): commercial solver, license required (academic license available)
 
-## Installation
 
-For installation, it is recommended to create a distinct environment in a conda environment.
-
-### Installation in a Conda environment
-
-```
-conda create -n <environment-name> python=3.11
-conda activate <environment-name>
-pip install pyflexad
-```
-
-## Windows
-
-- GLPK: install GLPK with conda: `conda install -c conda-forge glpk`
-- CBC: download the cbc zip-file for Windows from [AMPL](https://ampl.com/products/solvers/open-source-solvers/). 
-Extract the zip-file and copy cbc.exe to the folder of your Python code. 
-- HiGHS: `conda install -c conda-forge highs`, and `pip install highspy`.
-
-## macOS and Linux
-
-- GLPK: install GLPK with `conda install -c conda-forge glpk`
-- CBC: install CBC with `conda install -c conda-forge coincbc`.
-- HiGHS: install HiGHS with `conda install -c conda-forge highs` or `pip install highspy`.
-
-## All Platforms
-
-- Gurobi: first get a licence from [Gurobi](http://www.gurobi.com/) then install the gurobi solver.
-- GurobiPy: install GurobiPy with `pip install gurobipy`, make sure the licence and gurobi versions are compatible 
-by enforcing a version with `pip install gurobipy==<version>`,
-replace `<version>` with the version of your gurobi license e.g. `pip install gurobipy==10.0.3`. 
-See also: [How do I install Gurobi for Python?](https://support.gurobi.com/hc/en-us/articles/360044290292-How-do-I-install-Gurobi-for-Python)
-
-## Example usage
+## ▶️ Example usage
 
 ```python
 import matplotlib.pyplot as plt
@@ -144,26 +129,25 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Tutorial
+## Tutorials
 
 The PyFlexAD package comes with several example scripts in the folder 
-[./scripts](https://github.com/rce-fhv/pyflexad/scripts) on the GitHub repository.
+[./scripts](https://github.com/erc-fhv/pyflexad/scripts) on the GitHub repository.
 
-The unit tests can be found in folder [./tests](https://github.com/rce-fhv/pyflexad/tests) on the GitHub repository.
+The unit tests can be found in folder [./tests](https://github.com/erc-fhv/pyflexad/tests) on the GitHub repository.
 
 ## License
 
-The PyFlexAD package is released by the [Energy Research 
-Centre](https://www.fhv.at/en/research/energy) of the 
+The PyFlexAD package is released by the [Energy Research Centre](https://www.fhv.at/en/research/energy) of the 
 [University of Applied Sciences Vorarlberg](https://www.fhv.at/en) under the [MIT License](https://opensource.org/licenses/MIT).
 
-## Related Literature
+## 📖 Related Literature
 
 - [1] E. Öztürk, K. Kaspar, T. Faulwasser, K. Worthmann, P. Kepplinger, and K. Rheinberger, “Towards Efficient Aggregation of Storage Flexibilities in Power Grids,” Mar. 29, 2024, arXiv: arXiv:2403.20104. Accessed: Apr. 02, 2024. [Online]. Available: http://arxiv.org/abs/2403.20104
 - [2] E. Öztürk, T. Faulwasser, K. Worthmann, M. Preißinger, and K. Rheinberger, “Alleviating the Curse of Dimensionality in Minkowski Sum Approximations of Storage Flexibility,” Feb. 28, 2024, arXiv: arXiv:2311.01614. Accessed: Mar. 08, 2024. [Online]. Available: http://arxiv.org/abs/2311.01614
 - [3] E. Öztürk, K. Rheinberger, T. Faulwasser, K. Worthmann, and M. Preißinger, “Aggregation of Demand-Side Flexibilities: A Comparative Study of Approximation Algorithms,” Energies, vol. 15, no. 7, p. 2501, Mar. 2022, doi: 10.3390/en15072501.
 
-## Further Information
+## ℹ️ Further Information
 
 ### Energy Storage and Subclasses
 

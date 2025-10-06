@@ -1,13 +1,9 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "pyflexad"
 version = "0.0.3"
 description = 'Python Flexibility Aggregation and Disaggregation. '
 readme = "README.md"
-requires-python = "~=3.11"
+requires-python = ">=3.11, <3.13"
 # license = "MIT"
 license = {file = "LICENSE"}
 keywords = [
@@ -29,22 +25,22 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
-  #"Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
-  "numpy~=1.26.4",
-  "matplotlib~=3.8.4",
-  "scipy~=1.13.0",
-  "pyomo~=6.7.1",
-  "numba~=0.59.1",
-  "seaborn~=0.13.2",
-  "networkx~=3.3",
-  "typing_extensions~=4.11.0",
-  "pandas~=2.2.2",
-  "gurobipy~=10.0.3",
-  "pycddlib~=2.1.7",
-  "highspy>=1.5.3",
+    "numpy>=1.26.4,<1.27",
+    "matplotlib>=3.8.4,<3.9",
+    "scipy>=1.13.0,<1.14",
+    "pyomo>=6.7.1,<6.8",
+    "numba>=0.59.1,<0.60",
+    "seaborn>=0.13.2,<0.14",
+    "networkx>=3.3,<4",
+    "typing_extensions>=4.11.0,<4.12",
+    "pandas>=2.2.2,<2.3",
+    "gurobipy>=10.0.3,<12.0.3",
+    "pycddlib>=2.1.7,<2.2",
+    "highspy>=1.5.3",
 ]
 
 [project.urls] # Optional
@@ -52,49 +48,29 @@ dependencies = [
 #"Bug Reports" = "https://github.com/pyopensci/pyosmeta/issues"
 "Source" = "https://github.com/rce-fhv/pyflexad"
 
-[project.optional-dependencies]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
 dev = [
-  "jupyter",
-]
-#tests = [
-#  "pytest",
-#  "pytest-cov"
-#]
-#docs = [
-#  "sphinx",
-#  "pydata_sphinx_theme"
-#]
-#lint = [
-#  "black",
-#  "flake8"
-#]
-
-[tool.hatch.envs.test]
-# hatch run test:pytest
-dependencies = [
-  "pyflexad",
-  "pytest",
-  "pytest-cov",
-  "gurobipy~=10.0.3",
-  #"pytest-watcher"
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.13.3",
 ]
 
-[[tool.hatch.envs.test.matrix]]
-# hatch run test:pytest
-# python = ["3.11", "3.12"]
-python = ["3.11"]
+[tool.ruff]
+lint.select = ["E", "F", "W"]
+line-length = 120
 
-[tool.hatch.envs.test.scripts]
-# hatch run test:test_quick
-test_quick = "pytest --cov --cov-report html --cov-report term-missing --cov-fail-under 75 ./tests/test_pyflexad/test_flexibilities {args}"
-test_with_cov = "pytest --cov --cov-report html --cov-report term-missing --cov-fail-under 75 {args}"
-
-#format = "black {args}"
-#lint = "ruff check {args}"
-
-#[tool.pytest.ini_options]
-#testpaths="./tests/test_pyflexad/test_flexibilities"
-#addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75"
+[tool.pytest.ini_options]
+testpaths = ["tests/test_pyflexad"]
+pythonpath = ["."]
+# Specify the number of CPUs to run in parallel, using pytest-xdist e.g.: -n 12
+#addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75 -n auto"
+addopts = "--cov --cov-report html --cov-report term-missing --cov-fail-under 75"
 
 [tool.coverage.run]
 source = ["src"]
+
