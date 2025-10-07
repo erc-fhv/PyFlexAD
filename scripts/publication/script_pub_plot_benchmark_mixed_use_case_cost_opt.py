@@ -8,8 +8,8 @@ from pyflexad.utils.algorithms import Algorithms
 from pyflexad.utils.benchmark import Benchmark
 from pyflexad.utils.file_utils import FileUtils
 
-file = os.path.join(FileUtils.data_dir, "paper_04", "test_V06.pickle")
-file_lpvg = os.path.join(FileUtils.data_dir, "paper_04", "test_V06_lpvg_gurobi.pickle")
+file = os.path.join(FileUtils.data_dir, "paper_04", "test_V07.pickle")
+file_lpvg = os.path.join(FileUtils.data_dir, "paper_04", "test_V07_lpvg_gurobi.pickle")
 
 bm = Benchmark.from_pickle(file)
 bm_lpvg = Benchmark.from_pickle(file_lpvg)
@@ -59,7 +59,7 @@ for algorithm in [Algorithms.CENTRALIZED, Algorithms.IABVG_JIT, Algorithms.LPVG_
             )
 df = pd.DataFrame.from_records(record)
 df = df.round(decimals=2)
-df.to_excel(os.path.join(FileUtils.data_dir, "paper_04", "benchmark_results.xlsx"))
+df.to_excel(os.path.join(FileUtils.data_dir, "paper_04", "benchmark_results_cost_opt.xlsx"))
 
 # %%
 # fig, axes = plt.subplots(figsize=(20, 14), ncols=3, squeeze=True)
@@ -224,4 +224,4 @@ ax.xaxis.set_major_locator(x_locator)
 plt.tight_layout()
 plt.show()
 
-fig.savefig(os.path.join(FileUtils.data_dir, "paper_04", "pub_plot_benchmark_mixed_use_case_power_opt.pdf"))
+fig.savefig(os.path.join(FileUtils.data_dir, "paper_04", "pub_plot_benchmark_mixed_use_case_cost_opt.pdf"))
