@@ -61,8 +61,8 @@ all-solvers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/rce-fhv/pyflexad"
-Source = "https://github.com/rce-fhv/pyflexad"
+Homepage = "https://github.com/erc-fhv/pyflexad"
+Source = "https://github.com/erc-fhv/pyflexad"
 
 [tool.hatch.build.targets.wheel]
 # Ensure src layout is correctly packaged
