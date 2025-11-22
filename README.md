@@ -2,10 +2,10 @@
 
 ## About
 
-The software package PyFlexAD is designed to apply the **vertex-based aggregation** of various energy storage devices 
-for optimization purposes. 
-The software is implemented in the Python 3 programming language and licensed under the MIT license. 
-The python package is available for download from the Python Project Index (PyPI). 
+The software package PyFlexAD is designed to apply the **vertex-based aggregation** of various energy storage devices
+for optimization purposes.
+The software is implemented in the Python 3 programming language and licensed under the MIT license.
+The python package is available for download from the Python Project Index (PyPI).
 The source code and additional materials can be accessed on [GitHub](https://github.com/erc-fhv/PyFlexAD).
 
 ## 📦 Installation
@@ -51,7 +51,7 @@ python -c "import pyflexad; print(pyflexad.__version__)"
 
 ### Dependencies
 
-The latest version of PyFlexAD requires the installation of at least one mathematical programming solver, 
+The latest version of PyFlexAD requires the installation of at least one mathematical programming solver,
 which is supported by the [Pyomo](http://www.pyomo.org/) optimization modeling library.
 
 We recommend one of the following solvers:
@@ -156,14 +156,14 @@ plt.show()
 
 ## Tutorials
 
-The PyFlexAD package comes with several example scripts in the folder 
+The PyFlexAD package comes with several example scripts in the folder
 [./scripts](https://github.com/erc-fhv/pyflexad/scripts) on the GitHub repository.
 
 The unit tests can be found in folder [./tests](https://github.com/erc-fhv/pyflexad/tests) on the GitHub repository.
 
 ## License
 
-The PyFlexAD package is released by the [Energy Research Centre](https://www.fhv.at/en/research/energy) of the 
+The PyFlexAD package is released by the [Energy Research Centre](https://www.fhv.at/en/research/energy) of the
 [University of Applied Sciences Vorarlberg](https://www.fhv.at/en) under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## 📖 Related Literature
@@ -176,37 +176,37 @@ The PyFlexAD package is released by the [Energy Research Centre](https://www.fhv
 
 ### Energy Storage and Subclasses
 
-The package supports multiple types of energy storage systems, including BESS’s, TCL’s, EV’s and PHES’s. 
-These models extend the general EnergyStorage class. 
-The package focuses on modeling energy storage systems and does not include energy resources without storage properties. 
-Inflexible/non-steerable loads are either included as power demand of the devices (e.g. EV’s or TCLH’s) 
-or must be managed by the optimizing entity alongside the energy storage systems. 
-In order to calculate the general parameters of an energy storing system hardware and usage parameters must be provided. 
-Each subclass of EnergyStorage requires a specific set of parameters 
-e.g. to instantiate the class StationaryBattery instances of BESSHardware and BESSUsage are required. 
-For ease of use, the package already includes a sample of hardware parameters for models from BESS manufacturers 
-like Tesla and GENERAC, of EV manufactures like Tesla, Nissan and Renault for EV models, 
+The package supports multiple types of energy storage systems, including BESS’s, TCL’s, EV’s and PHES’s.
+These models extend the general EnergyStorage class.
+The package focuses on modeling energy storage systems and does not include energy resources without storage properties.
+Inflexible/non-steerable loads are either included as power demand of the devices (e.g. EV’s or TCLH’s)
+or must be managed by the optimizing entity alongside the energy storage systems.
+In order to calculate the general parameters of an energy storing system hardware and usage parameters must be provided.
+Each subclass of EnergyStorage requires a specific set of parameters
+e.g. to instantiate the class StationaryBattery instances of BESSHardware and BESSUsage are required.
+For ease of use, the package already includes a sample of hardware parameters for models from BESS manufacturers
+like Tesla and GENERAC, of EV manufactures like Tesla, Nissan and Renault for EV models,
 and generic air conditioning and water heaters for TCL models.
 
 ### Abstraction via Virtualization
 
-A fundamental concept in the PyFlexAD package is the virtualization of energy storage systems. 
-This involves abstracting individual physical energy storages into virtual representations, 
-which encapsulate the essential characteristics of the physical devices. 
-The virtualization process begins with the calculation of polytope extreme actions 
-to delineate the feasible operation regions of energy storage systems. 
-Polytope vertices of energy storages can be approximated effectively 
-using the inner-approximation by vertex-generation algorithm (IABVG) and a set of direction vectors J. 
-This approximation of vertices to extreme actions is crucial 
+A fundamental concept in the PyFlexAD package is the virtualization of energy storage systems.
+This involves abstracting individual physical energy storages into virtual representations,
+which encapsulate the essential characteristics of the physical devices.
+The virtualization process begins with the calculation of polytope extreme actions
+to delineate the feasible operation regions of energy storage systems.
+Polytope vertices of energy storages can be approximated effectively
+using the inner-approximation by vertex-generation algorithm (IABVG) and a set of direction vectors J.
+This approximation of vertices to extreme actions is crucial
 since the calculation of exact vertices becomes computationally intractable with increasing dimensions.
-By utilizing extreme actions, the computational effort required for flexibility optimization is significantly reduced. 
-Moreover, calculating the extreme actions can be parallelized for each energy storage device, 
+By utilizing extreme actions, the computational effort required for flexibility optimization is significantly reduced.
+Moreover, calculating the extreme actions can be parallelized for each energy storage device,
 further decreasing the computational load on the optimization entity.
 
 
 ### Flexibility Provision via Aggregation
 
-To describe the collective flexibility of virtual energy storages, their corresponding extreme actions are summed, 
-resulting in an aggregate virtual energy storage. 
-This aggregated virtual energy storage can be controlled like a virtual power plant 
+To describe the collective flexibility of virtual energy storages, their corresponding extreme actions are summed,
+resulting in an aggregate virtual energy storage.
+This aggregated virtual energy storage can be controlled like a virtual power plant
 and enables the optimization entity to optimize power profiles across the entire system.

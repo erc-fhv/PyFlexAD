@@ -1,0 +1,30 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.9.11
+    hooks:
+      - id: uv-lock
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.0
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+#  - repo: https://github.com/pre-commit/mirrors-mypy
+#    rev: v1.10.0
+#    hooks:
+#      - id: mypy
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+  - repo: local
+    hooks:
+      - id: forbid-pickle
+        name: Forbid pickle/mat files
+        entry: bash -c 'git diff --name-only --cached | grep -E "\.(pkl|mat)$" && echo "Binary formats forbidden" && exit 1 || true'
+        language: system

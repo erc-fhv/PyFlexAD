@@ -44,7 +44,7 @@ class Algorithms(StrEnum):
 
 lpvg_pyomo_algorithms = [Algorithms.LPVG_PYOMO_GUROBI,
                          Algorithms.LPVG_PYOMO_GUROBI_APPSI,
-                         # Algorithms.LPVG_PYOMO_GUROBI_DIRECT, # excluded due to problems with "sense" in newer versions
+                         # Algorithms.LPVG_PYOMO_GUROBI_DIRECT, # excluded due to problems with "sense"
                          Algorithms.LPVG_PYOMO_CBC,
                          Algorithms.LPVG_PYOMO_GLPK,
                          Algorithms.LPVG_PYOMO_HIGHS_APPSI]

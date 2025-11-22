@@ -15,7 +15,7 @@ bm = Benchmark.from_pickle(file)
 bm_lpvg = Benchmark.from_pickle(file_lpvg)
 
 # %%
-title = "$Benchmark \: with \: 5000  \: Households$\n"
+title = "$Benchmark \\: with \\: 5000  \\: Households$\n"
 flex_indices = {"200": 0, "500": 1, "1000": 2}
 linestyles = {"200": ":", "500": "--", "1000": "-"}
 linewidth = 4
@@ -123,9 +123,9 @@ for n_flex_str, j in flex_indices.items():
                             marker=markers[Algorithms.LPVG_GUROBIPY],
                             color=colors[Algorithms.LPVG_GUROBIPY], label=label_lpvg)
 
-    axes[0, 0].set_title("$Total \: Computation \: Time$", fontsize=titlefontsize)
-    axes[0, 1].set_title("$Approximation \: Time$", fontsize=titlefontsize)
-    axes[1, 0].set_title("$Optimization \: Time$", fontsize=titlefontsize)
+    axes[0, 0].set_title(r"$Total \: Computation \: Time$", fontsize=titlefontsize)
+    axes[0, 1].set_title(r"$Approximation \: Time$", fontsize=titlefontsize)
+    axes[1, 0].set_title(r"$Optimization \: Time$", fontsize=titlefontsize)
 
     # axes[0, 0].set_yticks([10 ** x for x in range(0, 4)] + [3000])
     # axes[0, 1].set_yticks([10 ** x for x in range(0, 4)] + [3000])
@@ -144,8 +144,8 @@ y_formatter = ticker.FuncFormatter(lambda y, _: '{:.5g}'.format(y))
 # y_formatter.set_scientific(False)
 
 for ax in [axes[0, 0], axes[0, 1], axes[1, 0]]:
-    ax.set_ylabel("$CPU \: Time \: (s)$", fontsize=axisfontsize)
-    ax.set_xlabel("$Time \: Periods$", fontsize=axisfontsize)
+    ax.set_ylabel(r"$CPU \: Time \: (s)$", fontsize=axisfontsize)
+    ax.set_xlabel(r"$Time \: Periods$", fontsize=axisfontsize)
     ax.grid(True)
     # ax.legend(title="$Legend$", loc="upper left", shadow=True, fancybox=True)
 
@@ -199,11 +199,11 @@ for n_flex_str, j in flex_indices.items():
                 color=colors[Algorithms.LPVG_GUROBIPY], label=label_lpvg)
 
 # ax.set_title("$Optimization \: Unused \: Potential \: Ratio$")
-ax.set_title("$Approximation \: Quality$", fontsize=titlefontsize)
+ax.set_title(r"$Approximation \: Quality$", fontsize=titlefontsize)
 ax.set_yticks(range(-1, 31, 1))
 x_locator = ticker.MultipleLocator(base=12)
-ax.set_ylabel("$UPR \: (\%)$", fontsize=axisfontsize)
-ax.set_xlabel("$Time \: Periods$", fontsize=axisfontsize)
+ax.set_ylabel(r"$UPR \: (\%)$", fontsize=axisfontsize)
+ax.set_xlabel(r"$Time \: Periods$", fontsize=axisfontsize)
 ax.grid(True)
 ax.tick_params(axis='both', which='major', labelsize=fontsize)
 # ax.legend(title="$Legend$", loc="upper left", shadow=True, fancybox=True)

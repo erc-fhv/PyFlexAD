@@ -76,7 +76,7 @@ def main() -> None:
         for i, esr in enumerate(esr_list):
             power = esr.get_load_profile()
             axes[0].scatter(power[0], power[1], label=f"Centralized OperationPoint[{i}]", color='k', marker="x")
-        axes[0].scatter(co_power[0], co_power[1], label=f"Centralized OperationPoint", color='k', marker="x")
+        axes[0].scatter(co_power[0], co_power[1], label="Centralized OperationPoint", color='k', marker="x")
 
         """Exact polytopes"""
         for i, v_esr in enumerate(agg_exact.get_items()):
