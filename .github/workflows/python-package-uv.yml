@@ -17,6 +17,14 @@ jobs:
           - "3.12"
 
     steps:
+      - name: Set Gurobi License
+        if: ${{ !env.ACT }} # skip a step that you don't want to run locally with "nektos/act"
+        run: |
+          # Create a license file from the secret
+          echo "${{ secrets.GUROBI_LICENSE_KEY }}" > gurobi.lic
+          export GRB_LICENSE_FILE="${{ github.workspace }}/gurobi.lic"
+        shell: bash
+
       - name: Checkout repository
         uses: actions/checkout@v5
 
